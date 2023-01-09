@@ -24,7 +24,13 @@ class Calculator {
         break
       case '/': this.userInput.push(+num1 / +num2)
         break
+      case '√': this.userInput.push(Math. sqrt(+num1))
+        break
     }
+  }
+
+  resetUserInput() {
+    this.userInput = []
   }
 }
 
@@ -42,12 +48,20 @@ class Input {
     return this.resultInput.value
   }
 
-  resetValue() {
+  resetResultValue() {
     this.resultInput.value = ''
+  }
+
+  resetHistoryValue() {
+    this.historyInput.value = ''
   }
 
   setHistory(value) {
     this.historyInput.value = value
+  }
+
+  setResult(value) {
+    this.resultInput.value = value
   }
 }
 
@@ -65,31 +79,48 @@ buttonsDigit.forEach((button) => {
   })
 })
 
-const operations = ['+', '-', '*', '/']
+const operations = ['+', '-', '*', '/', '√']
 const buttonsOperations = buttonsArray.filter((button) => {
   return operations.includes(button.value)
 })
 
 buttonsOperations.forEach((button) => {
   button.addEventListener('click', (event) => {
-    calculator.addValue(input.getValue())
+    if(input.getValue()) {
+      calculator.addValue(input.getValue())
+    }
+
     if(calculator.getUserInput().length === 3) {
       calculator.calculate()
       calculator.addValue(event.target.value)
       const [operand, operator] = calculator.getUserInput()
       input.setHistory(`${operand} ${operator}`)
-      input.resetValue()
+      input.resetResultValue()
       return
     }
     calculator.addValue(event.target.value)
-    console.log(calculator.getUserInput())
-    input.setHistory(`${input.getValue()} ${event.target.value}`)
-    input.resetValue()
+    if(input.getValue()) {
+      input.setHistory(`${input.getValue()} ${event.target.value}`)
+    } else {
+      const [result] = calculator.getUserInput()
+      input.setHistory(`${result} ${event.target.value}`)
+    }
+    input.resetResultValue()
   })
 })
 
 const buttonEquals = buttonsArray.find((button) => button.value === '=')
 buttonEquals.addEventListener('click', () => {
   calculator.addValue(input.getValue())
-  console.log(calculator.getUserInput())
+  calculator.calculate()
+  const [result] = calculator.getUserInput()
+  input.setHistory(result)
+  input.resetResultValue()
+})
+
+const buttonReset = buttonsArray.find((button) => button.value ==='AC')
+buttonReset.addEventListener('click', () => {
+  input.resetResultValue()
+  input.resetHistoryValue()
+  calculator.resetUserInput()
 })

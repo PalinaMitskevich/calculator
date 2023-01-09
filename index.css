@@ -33,7 +33,7 @@ input {
 
 .button-container {
     width: 100%;
-    background-image: linear-gradient(to bottom,  pink, rgba(112, 110, 194, 0.93));
+    background-image: linear-gradient(to bottom,  pink, rgb(182, 124, 124));
 }
 
 .button-row {

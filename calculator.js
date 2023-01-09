@@ -24,8 +24,44 @@ class Calculator {
         break
       case '/': this.userInput.push(+num1 / +num2)
         break
-      case '√': this.userInput.push(Math. sqrt(+num1))
+    }
+  }
+
+  changeOperand(changer) {
+    switch (changer) {
+      case '±':
+        this.#setLastOperand(this.#getLastOperand() * -1)
         break
+      case '%':
+        this.#setLastOperand(this.#getLastOperand() * 0.01)
+        break
+      case '√':
+        this.#setLastOperand(Math.sqrt(this.#getLastOperand()))
+        break
+    }
+  }
+
+  #setLastOperand(value) {
+    const num1 = this.userInput[0]
+    const num2 = this.userInput[2]
+    if(num2) {
+      this.userInput[2] = value
+      return
+    }
+    if(num1) {
+      this.userInput[0] = value
+      return
+    }
+  }
+
+  #getLastOperand() {
+    const num1 = this.userInput[0]
+    const num2 = this.userInput[2]
+    if(num2) {
+      return num2
+    }
+    if(num1) {
+      return num1
     }
   }
 
@@ -59,10 +95,6 @@ class Input {
   setHistory(value) {
     this.historyInput.value = value
   }
-
-  setResult(value) {
-    this.resultInput.value = value
-  }
 }
 
 const input = new Input()
@@ -79,7 +111,7 @@ buttonsDigit.forEach((button) => {
   })
 })
 
-const operations = ['+', '-', '*', '/', '√']
+const operations = ['+', '-', '*', '/']
 const buttonsOperations = buttonsArray.filter((button) => {
   return operations.includes(button.value)
 })
@@ -123,4 +155,16 @@ buttonReset.addEventListener('click', () => {
   input.resetResultValue()
   input.resetHistoryValue()
   calculator.resetUserInput()
+})
+
+const operandChangers = ['±', '%', '√']
+const buttonsOperandChangers = buttonsArray.filter((button) => {
+  return operandChangers.includes(button.value)
+})
+
+buttonsOperandChangers.forEach((button) => {
+  button.addEventListener('click', (event) => {
+    calculator.changeOperand(event.target.value)
+    console.log(calculator.getUserInput())
+  })
 })

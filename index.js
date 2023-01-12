@@ -174,7 +174,7 @@ buttonsOperandChangers.forEach((button) => {
     const currentValue = input.getValue()
 
     if (currentValue) {
-      if (event.target.value === '√'&& currentValue < 0) {
+      if (event.target.value === '√' && currentValue < 0) {
         return
       }
       const result = calculator.changeOperand(currentValue, event.target.value)
@@ -201,8 +201,8 @@ document.addEventListener('keydown', (event) => {
     add.click()
   }
   if (event.key === '-') {
-    const subtrack = buttonsOperations.find((button) => button.value === '-')
-    subtrack.click()
+    const minus = buttonsOperations.find((button) => button.value === '-')
+    minus.click()
   }
   if (event.key === '*') {
     const multiply = buttonsOperations.find((button) => button.value === '*')

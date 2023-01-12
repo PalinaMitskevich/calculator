@@ -35,7 +35,7 @@ input {
 }
 
 .button-container {
-    background-image: linear-gradient(to bottom, #fcd8dd, rgb(180, 107, 107));
+    background: linear-gradient(to bottom, #fcd8dd, rgb(180, 107, 107));
     border-radius: 0 0 10px 10px;
 }
 
